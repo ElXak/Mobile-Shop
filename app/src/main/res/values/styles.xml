@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="Widget.Theme.MobileShop.MyView" parent="">
+        <item name="android:background">@color/gray_400</item>
+    </style>
+
+    <style name="NavHeaderMain">
+        <item name="android:background">@drawable/side_nav_bar</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
+</resources>
