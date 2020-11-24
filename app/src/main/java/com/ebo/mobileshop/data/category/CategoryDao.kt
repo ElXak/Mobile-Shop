@@ -18,7 +18,7 @@ interface CategoryDao {
 
     // Query top-level categories
     @Query("SELECT id, name, code, sorting, description, count, picture from categories WHERE depthLevel=1")
-    fun getTopLevelCategories(): List<Category>
+    fun getTopLevelCategories(): List<TopLevelCategory>
 
     // Insert operation, all operation except SELECT will have keyword suspend so that they
     // designed to work with coroutines

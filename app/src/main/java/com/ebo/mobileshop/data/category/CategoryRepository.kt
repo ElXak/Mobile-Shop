@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ebo.mobileshop.WEB_SERVICE_URL
 import com.ebo.mobileshop.data.MobileShopDatabase
-import com.squareup.moshi.Types
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,8 +24,8 @@ class CategoryRepository(val app: Application) {
     // for publisher-subscriber pattern: in this pattern Repository acquires the data, but instead of returning data it publishes it
     // by using a component called LiveData. Any other component in the application can subscribe to handle changes to the data using
     // a pattern called a observer
-    private val _categoryData = MutableLiveData<List<Category>>()
-    val categoryData: LiveData<List<Category>> = _categoryData
+    private val _topLevelCategoryData = MutableLiveData<List<TopLevelCategory>>()
+    val topLevelCategoryData: LiveData<List<TopLevelCategory>> = _topLevelCategoryData
 
     // instance of DAO
     private val categoryDao = MobileShopDatabase.getDatabase(app).categoryDao()
@@ -36,13 +35,13 @@ class CategoryRepository(val app: Application) {
         // do all work in background thread
         CoroutineScope(Dispatchers.IO).launch {
             // try to get all data from database
-            val data = categoryDao.getAll()
+            val data = categoryDao.getTopLevelCategories()
             if (data.isEmpty()) {
                 // if data is empty read get it from WebService
                 callWebService()
             } else {
                 // else post it to live data
-                _categoryData.postValue(data)
+                _topLevelCategoryData.postValue(data)
 
                 // Toast can not be called from background thread
                 // Toast architecture is designed to be called from foreground thread
@@ -76,13 +75,15 @@ class CategoryRepository(val app: Application) {
 
             // get service data
             val serviceData = service.getCategoriesData().body() ?: emptyList()
-            // we can't use .value or setValue(). Because they are can only be called from UI thread
-            // instead we call postValue(). which is designed to be called from a background thread
-            _categoryData.postValue(serviceData)
 
             // update data in sqlLite database
             categoryDao.deleteAll()
             categoryDao.insertCategories(serviceData)
+
+            val data = categoryDao.getTopLevelCategories()
+            // we can't use .value or setValue(). Because they are can only be called from UI thread
+            // instead we call postValue(). which is designed to be called from a background thread
+            _topLevelCategoryData.postValue(data)
         }
     }
 

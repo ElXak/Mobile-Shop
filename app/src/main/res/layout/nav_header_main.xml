@@ -12,7 +12,7 @@
     style="@style/NavHeaderMain">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/header_image"
         android:layout_width="@dimen/nav_header_image_width"
         android:layout_height="@dimen/nav_header_image_height"
         android:contentDescription="@string/nav_header_desc"
@@ -27,7 +27,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/header_sub_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nav_header_subtitle" />
