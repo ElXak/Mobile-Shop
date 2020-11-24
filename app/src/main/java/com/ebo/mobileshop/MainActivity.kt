@@ -26,9 +26,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     private lateinit var messagesRedCircle: FrameLayout
-    private lateinit var messagesCountTextView: TextView
+    private lateinit var messagesCounter: TextView
     private lateinit var notificationsRedCircle: FrameLayout
-    private lateinit var notificationsCountTextView: TextView
+    private lateinit var notificationsCounter: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,11 +46,11 @@ class MainActivity : AppCompatActivity() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val bottomNavView: BottomNavigationView = binding.appBarMain.contentMain.bottomNavView
-        navController = findNavController(R.id.nav_host_fragment_content_main)
+        navController = findNavController(R.id.nav_host)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, // TODO change gallery and slideshow
+                R.id.nav_home, R.id.nav_category, R.id.nav_gallery, R.id.nav_slideshow, // TODO change gallery and slideshow
                 R.id.nav_search, R.id.nav_cart, R.id.nav_profile // TODO add more
         ), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -67,11 +67,11 @@ class MainActivity : AppCompatActivity() {
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val messageMenuItem = menu?.findItem(R.id.top_messages)
         val messagesRootView = messageMenuItem?.actionView as FrameLayout
-        messagesRedCircle = messagesRootView.findViewById(R.id.view_message_red_circle) as FrameLayout
-        messagesCountTextView = messagesRootView.findViewById(R.id.view_message_count_text) as TextView
+        messagesRedCircle = messagesRootView.findViewById(R.id.message_red_circle) as FrameLayout
+        messagesCounter = messagesRootView.findViewById(R.id.message_counter_text) as TextView
 
         val messagesCount = 3.toString()
-        messagesCountTextView.text = messagesCount
+        messagesCounter.text = messagesCount
         if (messagesCount != "")
             messagesRedCircle.visibility = View.VISIBLE
         messagesRootView.setOnClickListener {
@@ -80,11 +80,11 @@ class MainActivity : AppCompatActivity() {
 
         val notificationMenuItem = menu.findItem(R.id.top_notifications)
         val notificationRootView = notificationMenuItem?.actionView as FrameLayout
-        notificationsRedCircle = notificationRootView.findViewById(R.id.view_notification_red_circle) as FrameLayout
-        notificationsCountTextView = notificationRootView.findViewById(R.id.view_notification_count_text) as TextView
+        notificationsRedCircle = notificationRootView.findViewById(R.id.notification_red_circle) as FrameLayout
+        notificationsCounter = notificationRootView.findViewById(R.id.notification_counter_text) as TextView
 
         val notificationsCount = 4.toString()
-        notificationsCountTextView.text = notificationsCount
+        notificationsCounter.text = notificationsCount
         if (notificationsCount != "")
             notificationsRedCircle.visibility = View.VISIBLE
         notificationRootView.setOnClickListener {
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        val navController = findNavController(R.id.nav_host)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }

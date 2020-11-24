@@ -24,7 +24,7 @@ class GalleryFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         galleryViewModel =
                 ViewModelProvider(this).get(GalleryViewModel::class.java)
 

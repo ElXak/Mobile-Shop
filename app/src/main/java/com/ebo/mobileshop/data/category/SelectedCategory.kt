@@ -4,7 +4,7 @@ import com.ebo.mobileshop.WEB_SERVICE_URL
 
 // Data Class is very good for keeping data. it has many functions like toString, get, set
 
-data class TopLevelCategory(
+data class SelectedCategory(
     //  if variable name doesn't match json name use annotation. It comes from Moshi library
     //  @Json(name = "sectionName") val name: String,
     val id: Int,

@@ -8,7 +8,7 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ebo.mobileshop.WEB_SERVICE_URL
-import com.ebo.mobileshop.data.MobileShopDatabase
+import com.ebo.mobileshop.data.SqlDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,24 +24,24 @@ class CategoryRepository(val app: Application) {
     // for publisher-subscriber pattern: in this pattern Repository acquires the data, but instead of returning data it publishes it
     // by using a component called LiveData. Any other component in the application can subscribe to handle changes to the data using
     // a pattern called a observer
-    private val _topLevelCategoryData = MutableLiveData<List<TopLevelCategory>>()
-    val topLevelCategoryData: LiveData<List<TopLevelCategory>> = _topLevelCategoryData
+    private val _data = MutableLiveData<List<SelectedCategory>>()
+    val data: LiveData<List<SelectedCategory>> = _data
 
     // instance of DAO
-    private val categoryDao = MobileShopDatabase.getDatabase(app).categoryDao()
+    private val categoryDao = SqlDatabase.getDatabase(app).categoryDao()
 
     // runs on initialization
     init {
         // do all work in background thread
         CoroutineScope(Dispatchers.IO).launch {
             // try to get all data from database
-            val data = categoryDao.getTopLevelCategories()
-            if (data.isEmpty()) {
+            val databaseData = categoryDao.getCategories()
+            if (databaseData.isEmpty()) {
                 // if data is empty read get it from WebService
                 callWebService()
             } else {
                 // else post it to live data
-                _topLevelCategoryData.postValue(data)
+                _data.postValue(databaseData)
 
                 // Toast can not be called from background thread
                 // Toast architecture is designed to be called from foreground thread
@@ -80,10 +80,10 @@ class CategoryRepository(val app: Application) {
             categoryDao.deleteAll()
             categoryDao.insertCategories(serviceData)
 
-            val data = categoryDao.getTopLevelCategories()
+            val data = categoryDao.getCategories()
             // we can't use .value or setValue(). Because they are can only be called from UI thread
             // instead we call postValue(). which is designed to be called from a background thread
-            _topLevelCategoryData.postValue(data)
+            _data.postValue(data)
         }
     }
 
@@ -100,7 +100,7 @@ class CategoryRepository(val app: Application) {
         return networkInfo?.isConnectedOrConnecting ?: false
     }
 
-    fun refreshDataFromWeb() {
+    fun refreshFromWeb() {
         // Dispatchers.IO means do it in the background thread
         // Dispatchers.Main means do it in the foreground thread
         CoroutineScope(Dispatchers.IO).launch {

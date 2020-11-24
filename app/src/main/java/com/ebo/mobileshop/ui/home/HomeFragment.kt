@@ -4,30 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ebo.mobileshop.R
-import com.ebo.mobileshop.data.category.TopLevelCategory
+import com.ebo.mobileshop.data.category.SelectedCategory
 import com.ebo.mobileshop.databinding.FragmentHomeBinding
 
 // Fragment is a User Interface and is only responsible for managing the presentation
 class HomeFragment : Fragment(),
     // implementation of interface from RecyclerAdapter for listening of Recycler Item click
-    TopLevelCategoriesRecyclerAdapter.CategoryItemListener{
+    CategoriesRecyclerAdapter.CategoryItemListener{
 
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var viewModel: HomeViewModel
     private lateinit var recyclerView: RecyclerView
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var navController: NavController
-    private lateinit var adapter: TopLevelCategoriesRecyclerAdapter
+    private lateinit var adapter: CategoriesRecyclerAdapter
     private var _binding: FragmentHomeBinding? = null
 
     // This property is only valid between onCreateView and
@@ -39,7 +35,7 @@ class HomeFragment : Fragment(),
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        homeViewModel =
+        viewModel =
                 ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -47,16 +43,16 @@ class HomeFragment : Fragment(),
 
         // passed requireActivity() because NavController is located in Activity rather then Fragment
         navController = Navigation.findNavController(
-            requireActivity(), R.id.nav_host_fragment_content_main
+            requireActivity(), R.id.nav_host
         )
 
-        swipeRefreshLayout = binding.swipeLayout
+        swipeLayout = binding.swipeLayout
         // swipe event listener as a lambda expression that reacts on gesture
-        swipeRefreshLayout.setOnRefreshListener {
-            homeViewModel.refreshData()
+        swipeLayout.setOnRefreshListener {
+            viewModel.refreshData()
         }
 
-        recyclerView = binding.categoriesRecyclerView
+        recyclerView = binding.categoriesRecycler
 
 /*
         // get my layoutStyle from preferences. this code executed when fragment starts up
@@ -72,22 +68,22 @@ class HomeFragment : Fragment(),
             textView.text = it
         })
 */
-        homeViewModel.topLevelCategoryData.observe(viewLifecycleOwner, {
-            val topLevelCategoryNames = StringBuilder()
+        viewModel.data.observe(viewLifecycleOwner, {
+            val categoryNames = StringBuilder()
             for (category in it) {
-                topLevelCategoryNames.append(category.name).append("\n")
+                categoryNames.append(category.name).append("\n")
             }
-//            textView.text = topLevelCategoryNames
+//            textView.text = categoryNames
 
             // instance of adapter, passing context, observed viewModel.monsterData
             // and Fragment itself as a listener
             // adapter split to property declaration
-            adapter = TopLevelCategoriesRecyclerAdapter(requireContext(), it, this)
+            adapter = CategoriesRecyclerAdapter(requireContext(), it, this)
             // assign adapter to the recycler
             recyclerView.adapter = adapter
 
             // after receiving data hides refreshing icon on display
-            swipeRefreshLayout.isRefreshing = false
+            swipeLayout.isRefreshing = false
         })
         return root
     }
@@ -97,11 +93,11 @@ class HomeFragment : Fragment(),
         _binding = null
     }
 
-    override fun onCategoryItemClick(category: TopLevelCategory) {
+    override fun onCategoryItemClick(category: SelectedCategory) {
         // pass selected category to the LiveData for observing it in CategoryFragment
-        homeViewModel._selectedCategory.value = category
+        viewModel._selectedCategory.value = category
         // navigates to the destination of action in navigation element
-        navController.navigate(R.id.nav_gallery)
+        navController.navigate(R.id.nav_category)
 
     }
 }

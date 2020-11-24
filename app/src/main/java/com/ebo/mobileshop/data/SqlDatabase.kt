@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ebo.mobileshop.data.category.Category
 import com.ebo.mobileshop.data.category.CategoryDao
 
@@ -19,7 +17,7 @@ import com.ebo.mobileshop.data.category.CategoryDao
 // you upgrade the version of database and you have to add some code to handle database upgrade
 // exportSchema = false means don't generate files to document the database
 @Database(entities = [Category::class], version = 1, exportSchema = false)
-abstract class MobileShopDatabase: RoomDatabase() {
+abstract class SqlDatabase: RoomDatabase() {
 
     // for each DAO add an abstract fun. Name the fun descriptively
     // and have it return of your DAO instance
@@ -30,9 +28,9 @@ abstract class MobileShopDatabase: RoomDatabase() {
     companion object {
         // Volatile means this obj can be accessed by more then 1 thread at the time
         @Volatile
-        private var INSTANCE: MobileShopDatabase? = null
+        private var INSTANCE: SqlDatabase? = null
 
-        fun getDatabase(context: Context): MobileShopDatabase {
+        fun getDatabase(context: Context): SqlDatabase {
             // if INSTANCE == null create an instance
             if (INSTANCE == null) {
                 // synchronized means this block can be called by 1 thread at a time
@@ -40,7 +38,7 @@ abstract class MobileShopDatabase: RoomDatabase() {
                     INSTANCE = Room.databaseBuilder(
                         // applicationContext to make sure not an activity context
                         context.applicationContext,
-                        MobileShopDatabase::class.java,
+                        SqlDatabase::class.java,
                         // mobileshop.db is name of file in system storage
                         "mobileshop.db"
                     ).build()

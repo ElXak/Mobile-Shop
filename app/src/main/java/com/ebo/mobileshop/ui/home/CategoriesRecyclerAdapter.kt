@@ -8,19 +8,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ebo.mobileshop.R
-import com.ebo.mobileshop.data.category.Category
-import com.ebo.mobileshop.data.category.TopLevelCategory
+import com.ebo.mobileshop.data.category.SelectedCategory
 import de.hdodenhof.circleimageview.CircleImageView
 
 // Receives data and applies to each item in recycler view
 // Generic notation is <MainRecyclerAdapter.ViewHolder>()>.
 // ViewHolder() is inner class of adapter itself
-class TopLevelCategoriesRecyclerAdapter(val context: Context,
-                                        val categories: List<TopLevelCategory>,
+class CategoriesRecyclerAdapter(val context: Context,
+                                val categories: List<SelectedCategory>,
                                         // register fragment as a listener
-                                        val itemListener: CategoryItemListener
+                                val itemListener: CategoryItemListener
                                         ):
-    RecyclerView.Adapter<TopLevelCategoriesRecyclerAdapter.ViewHolder>() {
+    RecyclerView.Adapter<CategoriesRecyclerAdapter.ViewHolder>() {
 
     // inner class because it is inside of other class
     //one of jobs of ViewHolder is to contain references to its child views
@@ -79,7 +78,7 @@ class TopLevelCategoriesRecyclerAdapter(val context: Context,
     // click event is handled by RecyclerAdapter, but action is taken by activity or fragment
     // eventual action after clicking on recycler item must be taken by activity or fragment
     interface CategoryItemListener {
-        fun onCategoryItemClick(category: TopLevelCategory)
+        fun onCategoryItemClick(category: SelectedCategory)
     }
 
 }

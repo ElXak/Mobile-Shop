@@ -180,4 +180,11 @@
     <string name="material">MATERIAL</string>
     <string name="picture">PICTURE</string>
     <string name="title_activity_categories">Categories</string>
+    <string name="category">Category</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="splash">Splash</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="welcome">Welcome</string>
 </resources>
