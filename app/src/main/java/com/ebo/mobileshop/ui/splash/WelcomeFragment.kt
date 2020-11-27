@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -70,7 +69,7 @@ class WelcomeFragment : Fragment() {
         false
     }
 
-    private var dummyButton: Button? = null
+    private var nextButton: Button? = null
     private var fullscreenContent: View? = null
     private var fullscreenContentControls: View? = null
 
@@ -84,7 +83,7 @@ class WelcomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         if (ContextCompat.checkSelfPermission(
                 // context
@@ -93,11 +92,9 @@ class WelcomeFragment : Fragment() {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            // if permission is granted continue to display the fragment
-            // don't want to pause on this fragment
             displayHomeFragment()
         } else {
-            // else request the permissions. even if it is a single permission it have to be in array
+            // request the permissions. even if it is a single permission it have to be in array
             requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 PERMISSION_REQUEST_CODE)
         }
@@ -114,19 +111,31 @@ class WelcomeFragment : Fragment() {
     ) {
         // if requested permission code matches and permission is granted displays MainFragment
         // else display message
+/*
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                show()
                 displayHomeFragment()
             } else {
                 Toast.makeText(requireContext(), "Permission is denied", Toast.LENGTH_SHORT).show()
-                show()
-                displayHomeFragment()
             }
         }
+*/
+        toggle()
+        displayHomeFragment()
     }
 
     private fun displayHomeFragment() {
+/*
+        fullscreenContentControls?.visibility = View.GONE
+        visible = false
+
+        // Schedule a runnable to remove the status and navigation bar after a delay
+        hideHandler.removeCallbacks(showPart2Runnable)
+        hideHandler.postDelayed(hidePart2Runnable, UI_ANIMATION_DELAY.toLong())
+
+        delayedHide(100)
+*/
+
         // passed requireActivity() because NavController is located in Activity rather then Fragment
         val navController = Navigation.findNavController(
             requireActivity(), R.id.nav_host
@@ -148,10 +157,17 @@ class WelcomeFragment : Fragment() {
 
         visible = true
 
+        nextButton = binding.nextButton
         fullscreenContent = binding.fullscreenContent
+        fullscreenContentControls = binding.fullscreenContentControls
         // Set up the user interaction to manually show or hide the system UI.
-        fullscreenContent?.setOnClickListener { toggle() }
+        fullscreenContent?.setOnClickListener { displayHomeFragment() }
 
+        // Upon interacting with UI controls, delay any scheduled hide()
+        // operations to prevent the jarring behavior of controls going away
+        // while interacting with the UI.
+//        nextButton?.setOnTouchListener(delayHideTouchListener)
+        nextButton?.setOnClickListener { displayHomeFragment() }
     }
 
     override fun onResume() {
@@ -175,7 +191,7 @@ class WelcomeFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        dummyButton = null
+        nextButton = null
         fullscreenContent = null
         fullscreenContentControls = null
     }

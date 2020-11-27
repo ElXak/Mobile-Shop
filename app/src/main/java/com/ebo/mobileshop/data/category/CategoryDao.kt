@@ -13,22 +13,27 @@ interface CategoryDao {
 
     // Define each of operations you want to support
     // Query operations
-    @Query("SELECT * from categories")
+    @Query("SELECT * FROM categories")
     fun getAll(): List<Category>
 
     // Query top-level categories
-    @Query("SELECT id, name, code, sorting, description, count, picture from categories WHERE depthLevel=1")
-    fun getCategories(): List<SelectedCategory>
+    @Query("SELECT id, name, sorting, description, count, picture FROM categories WHERE depthLevel = 1")
+    fun getRoot(): List<SelectedCategory>
+
+    // Query top-level categories
+    @Query("SELECT id, name, sorting, description, count, picture FROM categories WHERE parentId = :parentId")
+    fun getSection(parentId: Int): List<SelectedCategory>
 
     // Insert operation, all operation except SELECT will have keyword suspend so that they
     // designed to work with coroutines
     @Insert
-    suspend fun insertCategory(category: Category)
+    suspend fun insert(category: Category)
 
     // Bulk insert
     @Insert
-    suspend fun insertCategories(categories: List<Category>)
+    suspend fun insertAll(categories: List<Category>)
 
     @Query("DELETE from categories")
     suspend fun deleteAll()
+
 }

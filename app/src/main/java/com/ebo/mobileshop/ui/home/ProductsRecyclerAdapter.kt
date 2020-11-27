@@ -4,29 +4,32 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ebo.mobileshop.R
-import com.ebo.mobileshop.data.category.SelectedCategory
-import de.hdodenhof.circleimageview.CircleImageView
+import com.ebo.mobileshop.data.product.SelectedProduct
+import java.text.NumberFormat
 
 // Receives data and applies to each item in recycler view
 // Generic notation is <MainRecyclerAdapter.ViewHolder>()>.
 // ViewHolder() is inner class of adapter itself
-class CategoriesRecyclerAdapter(
+class ProductsRecyclerAdapter(
     val context: Context,
-    val categories: List<SelectedCategory>,
+    val products: List<SelectedProduct>,
     // register fragment as a listener
     val itemListener: ItemListener
 ):
-    RecyclerView.Adapter<CategoriesRecyclerAdapter.ViewHolder>() {
+    RecyclerView.Adapter<ProductsRecyclerAdapter.ViewHolder>() {
 
     // inner class because it is inside of other class
     //one of jobs of ViewHolder is to contain references to its child views
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val previewImage: ImageView = itemView.findViewById(R.id.preview_image)
         val nameText: TextView = itemView.findViewById(R.id.name_text)
-        val categoryImage: CircleImageView = itemView.findViewById(R.id.category_image)
+        val priceText: TextView = itemView.findViewById(R.id.price_text)
+        val ratingText: TextView = itemView.findViewById(R.id.rating_text)
     }
 
     // creates layout view, parent is the ViewGroup at the root of the Layout
@@ -43,7 +46,7 @@ class CategoriesRecyclerAdapter(
             R.layout.monster_list_item
         }
 */
-        val view = inflater.inflate(R.layout.item_categories, parent, false)
+        val view = inflater.inflate(R.layout.item_products, parent, false)
 
         return ViewHolder(view)
     }
@@ -51,35 +54,43 @@ class CategoriesRecyclerAdapter(
     // binds data to the ViewHolder, holder reference passed in and will be called for each item in the grid
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // get single data out of the collection using the [position] index
-        val category = categories[position]
+        val product = products[position]
         // assign values to each of the objects in the holder
         // with(holder) for referencing holder multiple times
         with(holder) {
             // let for referencing multiple parameters of object
             nameText.let {
-                it.text = category.name
-                it.contentDescription = category.description
+                it.text = product.name
+                it.contentDescription = product.previewText
             }
+
+            // formats number as currency
+            val formatter = NumberFormat.getCurrencyInstance()
+            // format is applied to value
+            val text = formatter.format(product.price)
+            priceText.text = text
+
+            ratingText.text = product.rating.toString()
             // sets the image category.picture into categoryImage
             Glide.with(context)
-                .load(category.pictureUrl)
-                .into(categoryImage)
+                .load(product.pictureUrl)
+                .into(previewImage)
             // handles event of clicking one of the items
             // itemView is the root element of the Layout
             holder.itemView.setOnClickListener {
                 // sending selected item monster to the fragment
-                itemListener.onCategoryItemClick(category)
+                itemListener.onProductItemClick(product)
             }
         }
     }
 
     // return value can be assigned to the fun
-    override fun getItemCount() = categories.size
+    override fun getItemCount() = products.size
 
     // click event is handled by RecyclerAdapter, but action is taken by activity or fragment
     // eventual action after clicking on recycler item must be taken by activity or fragment
     interface ItemListener {
-        fun onCategoryItemClick(category: SelectedCategory)
+        fun onProductItemClick(product: SelectedProduct)
     }
 
 }

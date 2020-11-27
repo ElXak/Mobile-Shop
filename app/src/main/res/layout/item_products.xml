@@ -24,17 +24,18 @@
                 android:paddingBottom="@dimen/products_item_card_paddingBottom"
                 android:layout_gravity="center">
 
-            <ImageView android:id="@+id/category_image"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:scaleType="center"
-                       tools:src="@tools:sample/backgrounds/scenic"
-                       app:layout_constraintTop_toTopOf="parent"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constrainedHeight="true"
-                       android:maxHeight="@dimen/products_item_image_maxHeight"
-                       app:layout_constraintHeight_max="@dimen/products_item_image_maxHeight"
-                       app:layout_constraintEnd_toEndOf="parent"/>
+            <ImageView
+                android:id="@+id/preview_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="@dimen/products_item_image_maxHeight"
+                android:scaleType="centerCrop"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_max="@dimen/products_item_image_maxHeight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
 
             <TextView android:id="@+id/name_text"
                       android:layout_width="wrap_content"

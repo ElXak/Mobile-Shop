@@ -4,8 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.ebo.mobileshop.data.banner.Banner
+import com.ebo.mobileshop.data.banner.BannerDao
 import com.ebo.mobileshop.data.category.Category
 import com.ebo.mobileshop.data.category.CategoryDao
+import com.ebo.mobileshop.data.product.Product
+import com.ebo.mobileshop.data.product.ProductDao
 
 // Defining database class that extends class RoomDatabase
 // with abstract that means you can't instantiate the class directly in your code
@@ -16,13 +20,15 @@ import com.ebo.mobileshop.data.category.CategoryDao
 // version of database is Int and starts with 1, but if you change the database structure later
 // you upgrade the version of database and you have to add some code to handle database upgrade
 // exportSchema = false means don't generate files to document the database
-@Database(entities = [Category::class], version = 1, exportSchema = false)
+@Database(entities = [Category::class, Banner::class, Product::class], version = 1, exportSchema = false)
 abstract class SqlDatabase: RoomDatabase() {
 
     // for each DAO add an abstract fun. Name the fun descriptively
     // and have it return of your DAO instance
     // since categoryDao is instance of interface not superclass don't include "()"
     abstract fun categoryDao(): CategoryDao
+    abstract fun bannerDao(): BannerDao
+    abstract fun productDao(): ProductDao
 
     // fun to get the instance of this class
     companion object {

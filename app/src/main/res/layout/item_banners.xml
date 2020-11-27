@@ -3,32 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
+    android:gravity="center"
     android:layout_width="@dimen/banners_item_layout_width"
-    android:layout_height="wrap_content">
+    android:layout_height="188dp">
 
     <androidx.cardview.widget.CardView
             android:layout_width="@dimen/banners_item_card_width"
             android:layout_height="@dimen/banners_item_card_height"
             app:cardCornerRadius="@dimen/banners_item_card_radius"
-            android:layout_marginLeft="@dimen/banners_item_card_marginLeft"
-            android:layout_gravity="center_horizontal"
-            app:cardPreventCornerOverlap="false">
+            android:layout_marginStart="@dimen/banners_item_card_marginLeft"
+            android:layout_gravity="center"
+            app:cardPreventCornerOverlap="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <ImageView android:id="@+id/background_image"
-                       android:layout_width="@dimen/banners_item_image_width"
-                       android:layout_height="@dimen/banners_item_image_height"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintTop_toTopOf="parent"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       tools:src="@tools:sample/backgrounds/scenic"
-                       android:adjustViewBounds="true"
-                       android:scaleType="centerCrop"/>
+            <ImageView
+                android:id="@+id/background_image"
+                android:layout_width="@dimen/banners_item_image_width"
+                android:layout_height="@dimen/banners_item_image_height"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:layout_constraintCircleRadius="@dimen/banners_item_card_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
 
             <TextView android:id="@+id/banner_text"
                       android:layout_width="@dimen/banners_item_text_width"
@@ -38,7 +40,7 @@
                       android:textSize="@dimen/banners_item_text_size"
                       tools:text="T-shirt"
                       android:layout_centerHorizontal="true"
-                      android:gravity="left"
+                      android:gravity="start"
                       android:layout_marginTop="@dimen/banners_item_text_marginTop"
                       android:textColor="@color/colorSecondary"
                       android:layout_marginStart="@dimen/banners_item_text_marginStart"
@@ -52,13 +54,13 @@
                     android:layout_height="@dimen/banners_item_button_height"
                     android:background="@android:color/transparent"
                     app:srcCompat="@drawable/btn_more"
+                    android:contentDescription="@string/see_more"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="@dimen/banners_item_button_marginTop"
                     android:layout_marginStart="@dimen/banners_item_button_marginStart"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.cardview.widget.CardView>
 

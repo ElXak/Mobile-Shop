@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_category" />
 
     <fragment
+        android:id="@+id/nav_product"
+        android:name="com.ebo.mobileshop.ui.product.ProductFragment"
+        android:label="@string/product"
+        tools:layout="@layout/fragment_product" />
+
+    <fragment
         android:id="@+id/nav_gallery"
         android:name="com.ebo.mobileshop.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"

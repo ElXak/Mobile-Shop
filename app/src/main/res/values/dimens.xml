@@ -52,8 +52,8 @@
     <dimen name="banners_item_card_radius">10dp</dimen>
 
     <!-- Banners Item Image -->
-    <dimen name="banners_item_image_width">317dp</dimen>
-    <dimen name="banners_item_image_height">176dp</dimen>
+    <dimen name="banners_item_image_width">321dp</dimen>
+    <dimen name="banners_item_image_height">180dp</dimen>
 
     <!-- Banners Item Text -->
     <dimen name="banners_item_text_height">80dp</dimen>

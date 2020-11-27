@@ -1,4 +1,4 @@
-package com.ebo.mobileshop.data.category
+package com.ebo.mobileshop.data.product
 
 import android.app.Application
 import android.widget.Toast
@@ -18,27 +18,27 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 // Encapsulates the logic of getting data. Decides whether getting data from web service, cache or file
 // Once you defined Database with room you can use it from anywhere of your app,
 // but we architect to access database from 1 place, repository
-class CategoryRepository(val app: Application) {
+class ProductRepository(val app: Application) {
 
     // for publisher-subscriber pattern: in this pattern Repository acquires the data, but instead of returning data it publishes it
     // by using a component called LiveData. Any other component in the application can subscribe to handle changes to the data using
     // a pattern called a observer
-    private val _data = MutableLiveData<List<SelectedCategory>>()
-    val data: LiveData<List<SelectedCategory>> = _data
+    private val _data = MutableLiveData<List<SelectedProduct>>()
+    val data: LiveData<List<SelectedProduct>> = _data
 
     // for passing data to layout
-    private val _selectedData = MutableLiveData<SelectedCategory>()
-    val selectedData: LiveData<SelectedCategory> = _selectedData
+    private val _selectedData = MutableLiveData<SelectedProduct>()
+    val selectedData: LiveData<SelectedProduct> = _selectedData
 
     // instance of DAO
-    private val categoryDao = SqlDatabase.getDatabase(app).categoryDao()
+    private val productDao = SqlDatabase.getDatabase(app).productDao()
 
     // runs on initialization
     init {
         // do all work in background thread
         CoroutineScope(Dispatchers.IO).launch {
             // try to get all data from database
-            val databaseData = categoryDao.getRoot()
+            val databaseData = productDao.getTop()
             if (databaseData.isEmpty()) {
                 // if data is empty read get it from WebService
                 callWebService()
@@ -67,16 +67,16 @@ class CategoryRepository(val app: Application) {
                 .build()
 
             // create service
-            val service = retrofit.create(CategoryService::class.java)
+            val service = retrofit.create(ProductService::class.java)
 
             // get service data
-            val serviceData = service.getCategoriesData().body() ?: emptyList()
+            val serviceData = service.getProductsData().body() ?: emptyList()
 
             // update data in sqlLite database
-            categoryDao.deleteAll()
-            categoryDao.insertAll(serviceData)
+            productDao.deleteAll()
+            productDao.insertAll(serviceData)
 
-            val data = categoryDao.getRoot()
+            val data = productDao.getTop()
             // we can't use .value or setValue(). Because they are can only be called from UI thread
             // instead we call postValue(). which is designed to be called from a background thread
             _data.postValue(data)
@@ -91,7 +91,7 @@ class CategoryRepository(val app: Application) {
         }
     }
 
-    fun selectData(data: SelectedCategory) {
+    fun selectData(data: SelectedProduct) {
         CoroutineScope(Dispatchers.IO).launch {
             _selectedData.postValue(data)
         }

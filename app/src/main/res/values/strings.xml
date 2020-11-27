@@ -187,4 +187,6 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="welcome">Welcome</string>
+    <string name="next">Next</string>
+    <string name="see_more">See more</string>
 </resources>
