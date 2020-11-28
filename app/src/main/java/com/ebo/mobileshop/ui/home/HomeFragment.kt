@@ -1,9 +1,9 @@
 package com.ebo.mobileshop.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
@@ -20,6 +20,7 @@ import com.ebo.mobileshop.databinding.FragmentHomeBinding
 import com.ebo.mobileshop.ui.shared.BannerViewModel
 import com.ebo.mobileshop.ui.shared.CategoryViewModel
 import com.ebo.mobileshop.ui.shared.ProductViewModel
+import com.google.android.material.snackbar.Snackbar
 
 // Fragment is a User Interface and is only responsible for managing the presentation
 class HomeFragment : Fragment(),
@@ -41,6 +42,12 @@ class HomeFragment : Fragment(),
     private lateinit var navController: NavController
     private var _binding: FragmentHomeBinding? = null
 
+    private lateinit var messagesRedCircle: FrameLayout
+    private lateinit var messagesCounter: TextView
+    private lateinit var notificationsRedCircle: FrameLayout
+    private lateinit var notificationsCounter: TextView
+
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -60,6 +67,24 @@ class HomeFragment : Fragment(),
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        // in order to get reference to ActionBar Component
+        // we have to explicitly cast Activity as AppCompatActivity
+        (requireActivity() as AppCompatActivity).run {
+            // removes up button. it is member of ActionBar Component
+//            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            setSupportActionBar(binding.toolbar)
+        }
+
+        // setHasOptionsMenu(true) is not needed in Activities
+        // but in Fragment OptionsMenu doesn't work without setHasOptionsMenu(true)
+        // it makes fragment to listen OptionsMenu actions
+        setHasOptionsMenu(true)
+
+        binding.fab.setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
+
         // passed requireActivity() because NavController is located in Activity rather then Fragment
         navController = Navigation.findNavController(
             requireActivity(), R.id.nav_host
@@ -77,9 +102,9 @@ class HomeFragment : Fragment(),
             productViewModel.refreshData()
         }
 
-        categoryRecyclerView = binding.categoriesRecycler
-        bannerRecyclerView = binding.bannersRecycler
-        productRecyclerView = binding.productsRecycler
+        categoryRecyclerView = binding.contentHome.categoriesRecycler
+        bannerRecyclerView = binding.contentHome.bannersRecycler
+        productRecyclerView = binding.contentHome.productsRecycler
 
         bannerRecyclerView.isNestedScrollingEnabled = false
         bannerRecyclerView.setHasFixedSize(false)
@@ -160,6 +185,52 @@ class HomeFragment : Fragment(),
         productViewModel.selectData(product)
         // navigates to the destination of action in navigation element
         navController.navigate(R.id.nav_product)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.top_notifications, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val messageMenuItem = menu.findItem(R.id.top_messages)
+        val messagesRootView = messageMenuItem?.actionView as FrameLayout
+        messagesRedCircle = messagesRootView.findViewById(R.id.message_red_circle) as FrameLayout
+        messagesCounter = messagesRootView.findViewById(R.id.message_counter_text) as TextView
+
+        val messagesCount = 3.toString()
+        messagesCounter.text = messagesCount
+        if (messagesCount != "")
+            messagesRedCircle.visibility = View.VISIBLE
+        messagesRootView.setOnClickListener {
+            onOptionsItemSelected(messageMenuItem)
+        }
+
+        val notificationMenuItem = menu.findItem(R.id.top_notifications)
+        val notificationRootView = notificationMenuItem?.actionView as FrameLayout
+        notificationsRedCircle = notificationRootView.findViewById(R.id.notification_red_circle) as FrameLayout
+        notificationsCounter = notificationRootView.findViewById(R.id.notification_counter_text) as TextView
+
+        val notificationsCount = 4.toString()
+        notificationsCounter.text = notificationsCount
+        if (notificationsCount != "")
+            notificationsRedCircle.visibility = View.VISIBLE
+        notificationRootView.setOnClickListener {
+            onOptionsItemSelected(notificationMenuItem)
+        }
+
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.top_messages ->
+                navController.navigate(R.id.nav_gallery)
+            R.id.top_notifications ->
+                navController.navigate(R.id.nav_slideshow)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

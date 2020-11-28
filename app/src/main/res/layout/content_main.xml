@@ -8,7 +8,7 @@
     android:layout_marginStart="@dimen/content_margins"
     android:layout_marginEnd="@dimen/content_margins"
     android:layout_marginBottom="@dimen/content_margins"
-    tools:showIn="@layout/app_bar_main">
+    tools:context=".MainActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav_view"
