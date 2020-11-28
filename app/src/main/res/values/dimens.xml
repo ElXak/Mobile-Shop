@@ -103,10 +103,10 @@
     <dimen name="products_item_layout_coverMargin">-5.5dp</dimen>
 
     <!-- Products Item Card -->
-    <dimen name="products_item_card_width">101dp</dimen>
-    <dimen name="products_item_card_height">135dp</dimen>
-    <dimen name="products_item_card_layout_marginHorizontal">5.5dp</dimen>
-    <dimen name="products_item_card_layout_marginBottom">15dp</dimen>
+    <dimen name="products_item_card_width">160dp</dimen>
+    <dimen name="products_item_card_height">232dp</dimen>
+    <dimen name="products_item_card_layout_marginHorizontal">7.5dp</dimen>
+    <dimen name="products_item_card_layout_marginBottom">8dp</dimen>
     <dimen name="products_item_card_radius">10dp</dimen>
     <dimen name="products_item_card_paddingTop">8dp</dimen>
     <dimen name="products_item_card_paddingBottom">8dp</dimen>

@@ -10,8 +10,9 @@
             android:layout_width="@dimen/categories_item_card_width"
             android:layout_height="@dimen/categories_item_card_height"
             android:layout_gravity="center"
-            app:cardCornerRadius="@dimen/categories_item_card_radius"
+            app:cardCornerRadius="0dp"
             app:cardElevation="@dimen/categories_item_card_elevation"
+            app:cardBackgroundColor="@android:color/transparent"
             app:cardMaxElevation="@dimen/categories_item_card_maxElevation">
 
         <LinearLayout

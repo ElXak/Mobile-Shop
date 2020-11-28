@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -79,6 +80,11 @@ class HomeFragment : Fragment(),
         categoryRecyclerView = binding.categoriesRecycler
         bannerRecyclerView = binding.bannersRecycler
         productRecyclerView = binding.productsRecycler
+
+        bannerRecyclerView.isNestedScrollingEnabled = false
+        bannerRecyclerView.setHasFixedSize(false)
+        productRecyclerView.isNestedScrollingEnabled = false
+        productRecyclerView.setHasFixedSize(false)
 
 /*
         // get my layoutStyle from preferences. this code executed when fragment starts up
