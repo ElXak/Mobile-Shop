@@ -16,8 +16,9 @@
         android:id="@+id/fullscreen_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/welcome"
         android:layout_gravity="top"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/welcome"
         android:src="@drawable/slide3" />
 
     <!-- This FrameLayout insets its children based on system windows using
