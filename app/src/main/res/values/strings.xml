@@ -189,4 +189,7 @@
     <string name="welcome">Welcome</string>
     <string name="next">Next</string>
     <string name="see_more">See more</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="rating_icon">Rating icon</string>
 </resources>

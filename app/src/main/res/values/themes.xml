@@ -30,6 +30,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
     <style name="Theme.MobileShop.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
 
     <style name="Theme.MobileShop.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -37,6 +38,28 @@
     <style name="ThemeOverlay.MobileShop.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+
+    <style name="NoAllCaps" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="ShareChipAction" parent="@style/Widget.MaterialComponents.Chip.Action">
+        <item name="chipBackgroundColor">@color/size_selector_background_selector</item>
+        <item name="android:textColor">@color/size_selector_text_selector</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AddToCartChipAction" parent="@style/Widget.MaterialComponents.Chip.Action">
+        <item name="chipBackgroundColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorSecondary</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

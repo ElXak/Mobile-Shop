@@ -1,10 +1,13 @@
 package com.ebo.mobileshop.ui.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +15,9 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.ebo.mobileshop.ProductActivity
 import com.ebo.mobileshop.R
+import com.ebo.mobileshop.TAG
 import com.ebo.mobileshop.data.banner.SelectedBanner
 import com.ebo.mobileshop.data.category.SelectedCategory
 import com.ebo.mobileshop.data.product.SelectedProduct
@@ -158,8 +163,16 @@ class HomeFragment : Fragment(),
     override fun onProductItemClick(product: SelectedProduct) {
         // pass selected category to the LiveData for observing it in CategoryFragment
         productViewModel.selectData(product)
+/*
+        val bundle = bundleOf("id" to product.id)
         // navigates to the destination of action in navigation element
-        navController.navigate(R.id.nav_product)
+        navController.navigate(R.id.action_nav_product, bundle)
+*/
+
+        val intent = Intent(requireActivity(), ProductActivity::class.java)
+        intent.action = Intent.ACTION_VIEW
+        intent.putExtra("id", product.id)
+        startActivity(intent)
     }
 
 }
