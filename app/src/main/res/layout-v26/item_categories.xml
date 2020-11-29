@@ -6,18 +6,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
+<!--
     <androidx.cardview.widget.CardView
             android:layout_width="@dimen/categories_item_card_width"
             android:layout_height="@dimen/categories_item_card_height"
             android:layout_gravity="center"
             app:cardCornerRadius="@dimen/categories_item_card_radius"
             app:cardElevation="@dimen/categories_item_card_elevation"
+            app:cardBackgroundColor="@android:color/transparent"
             app:cardMaxElevation="@dimen/categories_item_card_maxElevation">
+-->
 
         <LinearLayout
                 android:id="@+id/background_linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="@dimen/categories_item_card_width"
+                android:layout_height="@dimen/categories_item_card_height"
                 android:layout_gravity="center"
                 android:orientation="vertical">
 
@@ -48,6 +51,8 @@
 
         </LinearLayout>
 
+<!--
     </androidx.cardview.widget.CardView>
+-->
 
 </LinearLayout>
