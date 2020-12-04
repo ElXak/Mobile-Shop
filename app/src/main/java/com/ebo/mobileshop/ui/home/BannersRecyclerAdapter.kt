@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ebo.mobileshop.R
-import com.ebo.mobileshop.data.banner.SelectedBanner
+import com.ebo.mobileshop.vo.SelectedBanner
 
 class BannersRecyclerAdapter(
     val context: Context,

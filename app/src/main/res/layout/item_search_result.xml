@@ -25,7 +25,7 @@
                 android:paddingBottom="@dimen/searchResult_item_card_padding"
                 android:layout_gravity="center">
 
-            <ImageView android:id="@+id/category_image"
+            <ImageView android:id="@+id/section_image"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:scaleType="fitCenter"
@@ -67,7 +67,7 @@
                        app:layout_constraintHeight_max="@dimen/searchResult_item_image_maxHeight"
                        app:layout_constraintBottom_toBottomOf="@+id/price_text"
                        app:layout_constraintEnd_toEndOf="parent"
-                       app:srcCompat="@drawable/ic_raiting"
+                       app:srcCompat="@drawable/ic_rating"
                        app:layout_constraintTop_toTopOf="@+id/price_text"/>
 
             <TextView android:id="@+id/rating_text"

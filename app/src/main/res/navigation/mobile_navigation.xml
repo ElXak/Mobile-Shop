@@ -16,24 +16,24 @@
     </fragment-->
 
     <fragment
-        android:id="@+id/nav_category"
-        android:name="com.ebo.mobileshop.ui.category.CategoryFragment"
-        android:label="@string/category"
+        android:id="@+id/nav_section"
+        android:name="com.ebo.mobileshop.ui.section.CategoryFragment"
+        android:label="@string/section"
         tools:layout="@layout/fragment_category" />
 
     <!--
     <fragment
         android:id="@+id/nav_product"
-        android:name="com.ebo.mobileshop.ui.product.ProductFragment"
-        android:label="@string/product"
+        android:name="com.ebo.mobileshop.ui.item.ProductFragment"
+        android:label="@string/item"
         tools:layout="@layout/fragment_product" />
     -->
 
     <activity
-        android:id="@+id/nav_product"
-        android:name="com.ebo.mobileshop.ProductActivity"
-        android:label="@string/product"
-        tools:layout="@layout/activity_product" />
+        android:id="@+id/nav_item"
+        android:name="com.ebo.mobileshop.ItemActivity"
+        android:label="@string/item"
+        tools:layout="@layout/activity_item" />
     <!--argument
             android:name="id"
             app:argType="integer"

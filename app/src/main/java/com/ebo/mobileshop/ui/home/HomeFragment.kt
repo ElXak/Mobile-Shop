@@ -2,46 +2,41 @@ package com.ebo.mobileshop.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.ebo.mobileshop.ProductActivity
-import com.ebo.mobileshop.R
-import com.ebo.mobileshop.TAG
-import com.ebo.mobileshop.data.banner.SelectedBanner
-import com.ebo.mobileshop.data.category.SelectedCategory
-import com.ebo.mobileshop.data.product.SelectedProduct
+import com.ebo.mobileshop.*
+import com.ebo.mobileshop.vo.SelectedBanner
+import com.ebo.mobileshop.vo.SelectedSection
+import com.ebo.mobileshop.vo.SelectedItem
 import com.ebo.mobileshop.databinding.FragmentHomeBinding
 import com.ebo.mobileshop.ui.shared.BannerViewModel
-import com.ebo.mobileshop.ui.shared.CategoryViewModel
-import com.ebo.mobileshop.ui.shared.ProductViewModel
+import com.ebo.mobileshop.ui.shared.SectionViewModel
+import com.ebo.mobileshop.ui.shared.ItemViewModel
 
 // Fragment is a User Interface and is only responsible for managing the presentation
 class HomeFragment : Fragment(),
     // implementation of interface from RecyclerAdapter for listening of Recycler Item click
-    CategoriesRecyclerAdapter.ItemListener,
+    SectionsRecyclerAdapter.ItemListener,
     BannersRecyclerAdapter.ItemListener,
-    ProductsRecyclerAdapter.ItemListener{
+    ItemsRecyclerAdapter.ItemListener{
 
-    private lateinit var categoryViewModel: CategoryViewModel
-    private lateinit var categoryRecyclerView: RecyclerView
-    private lateinit var categoriesAdapter: CategoriesRecyclerAdapter
+    private lateinit var sectionViewModel: SectionViewModel
+    private lateinit var sectionsRecyclerView: RecyclerView
+    private lateinit var sectionsAdapter: SectionsRecyclerAdapter
     private lateinit var bannerViewModel: BannerViewModel
-    private lateinit var bannerRecyclerView: RecyclerView
+    private lateinit var bannersRecyclerView: RecyclerView
     private lateinit var bannersAdapter: BannersRecyclerAdapter
-    private lateinit var productViewModel: ProductViewModel
-    private lateinit var productRecyclerView: RecyclerView
-    private lateinit var productsAdapter: ProductsRecyclerAdapter
+    private lateinit var itemViewModel: ItemViewModel
+    private lateinit var itemsRecyclerView: RecyclerView
+    private lateinit var itemsAdapter: ItemsRecyclerAdapter
     private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var navController: NavController
     private var _binding: FragmentHomeBinding? = null
@@ -55,12 +50,12 @@ class HomeFragment : Fragment(),
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        categoryViewModel =
-                ViewModelProvider(requireActivity()).get(CategoryViewModel::class.java)
+        sectionViewModel =
+                ViewModelProvider(requireActivity()).get(SectionViewModel::class.java)
         bannerViewModel =
                 ViewModelProvider(this).get(BannerViewModel::class.java)
-        productViewModel =
-                ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
+        itemViewModel =
+                ViewModelProvider(requireActivity()).get(ItemViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -77,19 +72,19 @@ class HomeFragment : Fragment(),
 //        swipeLayout = binding.swipeLayout
         // swipe event listener as a lambda expression that reacts on gesture
         swipeLayout.setOnRefreshListener {
-            categoryViewModel.refreshData()
+            sectionViewModel.refreshData()
             bannerViewModel.refreshData()
-            productViewModel.refreshData()
+            itemViewModel.refreshData()
         }
 
-        categoryRecyclerView = binding.categoriesRecycler
-        bannerRecyclerView = binding.bannersRecycler
-        productRecyclerView = binding.productsRecycler
+        sectionsRecyclerView = binding.sectionsRecycler
+        bannersRecyclerView = binding.bannersRecycler
+        itemsRecyclerView = binding.itemsRecycler
 
-        bannerRecyclerView.isNestedScrollingEnabled = false
-        bannerRecyclerView.setHasFixedSize(false)
-        productRecyclerView.isNestedScrollingEnabled = false
-        productRecyclerView.setHasFixedSize(false)
+        bannersRecyclerView.isNestedScrollingEnabled = false
+        bannersRecyclerView.setHasFixedSize(false)
+        itemsRecyclerView.isNestedScrollingEnabled = false
+        itemsRecyclerView.setHasFixedSize(false)
 
 /*
         // get my layoutStyle from preferences. this code executed when fragment starts up
@@ -105,7 +100,7 @@ class HomeFragment : Fragment(),
             textView.text = it
         })
 */
-        categoryViewModel.data.observe(viewLifecycleOwner, {
+        sectionViewModel.data.observe(viewLifecycleOwner, {
 /*
             val categoryNames = StringBuilder()
             for (category in it) {
@@ -117,9 +112,9 @@ class HomeFragment : Fragment(),
             // instance of adapter, passing context, observed viewModel.monsterData
             // and Fragment itself as a listener
             // adapter split to property declaration
-            categoriesAdapter = CategoriesRecyclerAdapter(requireContext(), it, this)
+            sectionsAdapter = SectionsRecyclerAdapter(requireContext(), it, this)
             // assign adapter to the recycler
-            categoryRecyclerView.adapter = categoriesAdapter
+            sectionsRecyclerView.adapter = sectionsAdapter
 
             // after receiving data hides refreshing icon on display
             swipeLayout.isRefreshing = false
@@ -127,15 +122,15 @@ class HomeFragment : Fragment(),
 
         bannerViewModel.data.observe(viewLifecycleOwner, {
             bannersAdapter = BannersRecyclerAdapter(requireContext(), it, this)
-            bannerRecyclerView.adapter = bannersAdapter
+            bannersRecyclerView.adapter = bannersAdapter
 
             // after receiving data hides refreshing icon on display
             swipeLayout.isRefreshing = false
         })
 
-        productViewModel.data.observe(viewLifecycleOwner, {
-            productsAdapter = ProductsRecyclerAdapter(requireContext(), it, this)
-            productRecyclerView.adapter = productsAdapter
+        itemViewModel.data.observe(viewLifecycleOwner, {
+            itemsAdapter = ItemsRecyclerAdapter(requireContext(), it, this)
+            itemsRecyclerView.adapter = itemsAdapter
 
             // after receiving data hides refreshing icon on display
             swipeLayout.isRefreshing = false
@@ -149,29 +144,30 @@ class HomeFragment : Fragment(),
         _binding = null
     }
 
-    override fun onCategoryItemClick(category: SelectedCategory) {
-        // pass selected category to the LiveData for observing it in CategoryFragment
-        categoryViewModel.selectData(category)
+    override fun onSectionItemClick(section: SelectedSection) {
+        // pass selected section to the LiveData for observing it in SectionFragment
+        sectionViewModel.selectData(section)
         // navigates to the destination of action in navigation element
-        navController.navigate(R.id.nav_category)
+        navController.navigate(R.id.nav_section)
     }
 
     override fun onBannerItemClick(banner: SelectedBanner) {
-        navController.navigate(R.id.nav_category)
+        navController.navigate(R.id.nav_section)
     }
 
-    override fun onProductItemClick(product: SelectedProduct) {
+    override fun onItemClick(item: SelectedItem) {
         // pass selected category to the LiveData for observing it in CategoryFragment
-        productViewModel.selectData(product)
+//        itemViewModel.selectData(item)
 /*
-        val bundle = bundleOf("id" to product.id)
+        val bundle = bundleOf("id" to item.id)
         // navigates to the destination of action in navigation element
         navController.navigate(R.id.action_nav_product, bundle)
 */
 
-        val intent = Intent(requireActivity(), ProductActivity::class.java)
+        val intent = Intent(requireActivity(), ItemActivity::class.java)
         intent.action = Intent.ACTION_VIEW
-        intent.putExtra("id", product.id)
+        intent.putExtra(ITEM_ID, item.id)
+        intent.putExtra(SECTION_ID, item.sectionId)
         startActivity(intent)
     }
 

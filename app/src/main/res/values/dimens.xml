@@ -137,16 +137,16 @@
     <!-- Search Search Icon -->
     <dimen name="search_search_icon_marginStart">15dp</dimen>
 
-    <!-- Product Name -->
+    <!-- Item Name -->
     <dimen name="product_name_textSize">15sp</dimen>
     <dimen name="product_name_marginTop">8dp</dimen>
 
-    <!-- Product Price -->
+    <!-- Item Price -->
     <dimen name="product_price_textSize">15sp</dimen>
     <dimen name="product_price_marginTop">4dp</dimen>
     <dimen name="product_price_marginEnd">42dp</dimen>
 
-    <!-- Product Rating -->
+    <!-- Item Rating -->
     <dimen name="product_rating_image_marginStart">6dp</dimen>
     <dimen name="product_rating_textSize">12sp</dimen>
     <dimen name="product_rating_marginStart">13dp</dimen>
@@ -168,41 +168,41 @@
     <dimen name="menu_view_circle_height">15dp</dimen>
     <dimen name="menu_view_textSize">10sp</dimen>
 
-    <!-- Product Slider -->
+    <!-- Item Slider -->
     <dimen name="product_slider_height">231dp</dimen>
     <dimen name="product_slider_indicator_margin">15dp</dimen>
     <dimen name="product_slider_indicator_padding">3dp</dimen>
     <dimen name="product_slider_indicator_radius">1dp</dimen>
 
-    <!-- Product Tab -->
+    <!-- Item Tab -->
     <dimen name="product_tab_corner">27dp</dimen>
     <dimen name="product_tab_width">244dp</dimen>
     <dimen name="product_tab_height">31dp</dimen>
     <dimen name="product_tab_vertical_margin">16dp</dimen>
 
-    <!-- Product Heading -->
+    <!-- Item Heading -->
     <dimen name="product_heading_textSize">12sp</dimen>
 
-    <!-- Product Colors -->
+    <!-- Item Colors -->
     <dimen name="product_colorsSelector_size">76dp</dimen>
     <dimen name="product_colors_size">48dp</dimen>
     <dimen name="product_colors_margin">8dp</dimen>
 
-    <!-- Product Size -->
+    <!-- Item Size -->
     <dimen name="product_size_width">80dp</dimen>
     <dimen name="product_size_height">56dp</dimen>
     <dimen name="product_size_corner">10dp</dimen>
 
-    <!-- Product Bottom -->
-    <dimen name="product_bottomDivader_height">76dp</dimen>
+    <!-- Item Bottom -->
+    <dimen name="product_bottomDivider_height">76dp</dimen>
     <dimen name="product_bottomButton_width">160dp</dimen>
     <dimen name="product_bottomButton_height">56dp</dimen>
     <dimen name="product_bottomButton_margin">15dp</dimen>
     <dimen name="product_bottomButton_textSize">12sp</dimen>
 
-    <!-- Product Details -->
+    <!-- Item Details -->
     <dimen name="product_details_textSize">14sp</dimen>
-    <dimen name="product_details_lable_marginTop">26dp</dimen>
+    <dimen name="product_details_label_marginTop">26dp</dimen>
     <dimen name="app_bar_height">140dp</dimen>
 
 </resources>

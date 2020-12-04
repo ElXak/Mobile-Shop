@@ -79,7 +79,7 @@
             app:layout_constraintHeight_max="@dimen/searchResult_item_image_maxHeight"
             app:layout_constraintBottom_toBottomOf="@+id/price_text"
             app:layout_constraintEnd_toEndOf="@id/product_card"
-            app:srcCompat="@drawable/ic_raiting"
+            app:srcCompat="@drawable/ic_rating"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="6dp"

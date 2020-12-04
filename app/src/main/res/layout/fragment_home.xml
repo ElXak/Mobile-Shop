@@ -18,13 +18,13 @@
         android:layout_marginEnd="16dp"
         android:textSize="30sp"
         android:textColor="@color/colorPrimaryDark"
-        android:text="@string/categories"
+        android:text="@string/sections"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/swipe_layout"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categories_recycler"
+        android:id="@+id/sections_recycler"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
         android:orientation="horizontal"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/products_recycler"
+        android:id="@+id/items_recycler"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
