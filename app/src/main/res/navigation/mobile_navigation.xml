@@ -17,9 +17,9 @@
 
     <fragment
         android:id="@+id/nav_section"
-        android:name="com.ebo.mobileshop.ui.section.CategoryFragment"
+        android:name="com.ebo.mobileshop.ui.section.SectionFragment"
         android:label="@string/section"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_section" />
 
     <!--
     <fragment

@@ -5,11 +5,10 @@ import android.widget.Toast
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.ebo.mobileshop.WEB_SERVICE_URL
+import com.ebo.mobileshop.*
 import com.ebo.mobileshop.api.LamodeService
 import com.ebo.mobileshop.db.MobileShopDb
 import com.ebo.mobileshop.utilities.Network
-import com.ebo.mobileshop.vo.Image
 import com.ebo.mobileshop.vo.SelectedImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +17,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class ImageRepository(val app: Application, private val itemId: Int) {
+class ImageRepository(val app: Application, private val params: Map<String, String>) {
 
     private val _data = MutableLiveData<List<SelectedImage>>()
     val data: LiveData<List<SelectedImage>> = _data
@@ -27,7 +26,7 @@ class ImageRepository(val app: Application, private val itemId: Int) {
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
-            val databaseData = dao.getByItemId(itemId)
+            val databaseData = dao.getByItemCode(params[ITEM_CODE]!!)
             if (databaseData.isEmpty()) {
                 webService()
             } else {
@@ -50,11 +49,14 @@ class ImageRepository(val app: Application, private val itemId: Int) {
                 .build()
 
             val service = retrofit.create(LamodeService::class.java)
-            val serviceData = service.getImages().body() ?: emptyList()
+            val serviceData = service.getImages(
+                params[ITEM_CODE]!!,
+                params[SECTION_CODE]!!
+            ).body() ?: emptyList()
 
             dao.insertAll(serviceData)
 
-            val data = dao.getByItemId(itemId)
+            val data = dao.getByItemCode(params[ITEM_CODE]!!)
             _data.postValue(data)
         }
     }

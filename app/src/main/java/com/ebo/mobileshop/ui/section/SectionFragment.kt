@@ -1,20 +1,20 @@
-package com.ebo.mobileshop.ui.category
+package com.ebo.mobileshop.ui.section
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.ebo.mobileshop.databinding.FragmentCategoryBinding
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.ebo.mobileshop.databinding.FragmentSectionBinding
 import com.ebo.mobileshop.ui.shared.SectionViewModel
 
 // TODO: 11/25/2020 sub sections at top of fragment and title of fragment also implement data binding in layout
-class CategoryFragment : Fragment() {
+class SectionFragment : Fragment() {
 
     private lateinit var viewModel: SectionViewModel
-    private var _binding: FragmentCategoryBinding? = null
+    private var _binding: FragmentSectionBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -28,7 +28,7 @@ class CategoryFragment : Fragment() {
         viewModel =
             ViewModelProvider(requireActivity()).get(SectionViewModel::class.java)
 
-        _binding = FragmentCategoryBinding.inflate(inflater, container, false)
+        _binding = FragmentSectionBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.categoryText

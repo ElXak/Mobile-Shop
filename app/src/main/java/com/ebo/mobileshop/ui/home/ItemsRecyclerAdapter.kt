@@ -46,7 +46,7 @@ class ItemsRecyclerAdapter(
             R.layout.monster_list_item
         }
 */
-        val view = inflater.inflate(R.layout.item_sections, parent, false)
+        val view = inflater.inflate(R.layout.item_products, parent, false)
 
         return ViewHolder(view)
     }

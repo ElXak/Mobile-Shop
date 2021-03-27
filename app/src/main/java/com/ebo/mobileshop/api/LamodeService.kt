@@ -21,7 +21,7 @@ interface LamodeService {
     suspend fun getItemDetails(@Query("ID") id: Int, @Query("SECTION_ID") sectionId: Int): Response<Item>
 
     @GET("/json/images.php")
-    suspend fun getImages(): Response<List<Image>>
+    suspend fun getImages(@Query("elmid") itemCode: String, @Query("secid") sectionCode: String): Response<List<Image>>
 
     // Annotation member of retrofit2.http
     @GET("/json/categories.php")

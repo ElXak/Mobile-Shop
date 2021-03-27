@@ -8,6 +8,8 @@ const val WEB_SERVICE_URL = "https://www.lamode.tj"
 
 const val ITEM_ID = "id"
 const val SECTION_ID = "sectionId"
+const val ITEM_CODE = "code"
+const val SECTION_CODE = "sectionCode"
 
 // View types layout
 const val VIEW_TYPE_GRID = "grid"

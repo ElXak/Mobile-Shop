@@ -156,7 +156,7 @@ class HomeFragment : Fragment(),
     }
 
     override fun onItemClick(item: SelectedItem) {
-        // pass selected category to the LiveData for observing it in CategoryFragment
+        // pass selected category to the LiveData for observing it in SectionFragment
 //        itemViewModel.selectData(item)
 /*
         val bundle = bundleOf("id" to item.id)
@@ -168,6 +168,8 @@ class HomeFragment : Fragment(),
         intent.action = Intent.ACTION_VIEW
         intent.putExtra(ITEM_ID, item.id)
         intent.putExtra(SECTION_ID, item.sectionId)
+        intent.putExtra(ITEM_CODE, item.code)
+        intent.putExtra(SECTION_CODE, item.sectionCode)
         startActivity(intent)
     }
 

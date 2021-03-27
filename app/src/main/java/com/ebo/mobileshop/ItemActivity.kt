@@ -19,12 +19,15 @@ import com.ebo.mobileshop.databinding.ActivityItemBinding
 import com.ebo.mobileshop.ui.item.PageViewModel
 import com.ebo.mobileshop.ui.item.SliderAdapter
 import com.ebo.mobileshop.ui.item.ViewModelFactory
+import com.ebo.mobileshop.ui.shared.ImageViewModel
+import com.ebo.mobileshop.ui.shared.ImageViewModelFactory
 import com.smarteist.autoimageslider.SliderView
 
 class ItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityItemBinding
-    private lateinit var viewModel: PageViewModel
+    private lateinit var pageViewModel: PageViewModel
+    private lateinit var imageViewModel: ImageViewModel
 
     private lateinit var cartRedCircle: FrameLayout
     private lateinit var cartCounter: TextView
@@ -33,6 +36,7 @@ class ItemActivity : AppCompatActivity() {
     // for usage outside of class as class object
     companion object {
         lateinit var params: Map<String, Int>
+        lateinit var imageParams: Map<String, String>
     }
 
 
@@ -43,29 +47,45 @@ class ItemActivity : AppCompatActivity() {
 
         val id = intent.extras!!.getInt(ITEM_ID)
         val sectionId = intent.extras!!.getInt(SECTION_ID)
+        val code = intent.extras!!.getString(ITEM_CODE)
+        val sectionCode = intent.extras!!.getString(SECTION_CODE)
         params = mapOf(Pair(ITEM_ID, id), Pair(SECTION_ID, sectionId))
+        imageParams = mapOf(Pair(ITEM_CODE, code!!), Pair(SECTION_CODE, sectionCode!!))
 
-        viewModel =
+        pageViewModel =
             // ViewModelFactory is used for passing arguments to the ViewModelClass
             ViewModelProvider(this, ViewModelFactory(this.application, params))
                 .get(PageViewModel::class.java)
 
         binding = ActivityItemBinding.inflate(layoutInflater)
-        binding.viewModel = viewModel
+        binding.viewModel = pageViewModel
 
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        viewModel.data.observe(this, {
+/*
+        pageViewModel.data.observe(this, {
             Log.i(TAG, "onCreate: ${it}")
 //            name.text = it.name
 //            price.text = it.price.toString()
         })
+*/
 
+        imageViewModel =
+                // ViewModelFactory is used for passing arguments to the ViewModelClass
+            ViewModelProvider(this, ImageViewModelFactory(this.application, imageParams))
+                .get(ImageViewModel::class.java)
+
+        imageViewModel.data.observe(this, {
+            Log.i(TAG, "onCreate: ${it}")
+        })
+
+/*
         val slideView: SliderView = binding.imageSlider
-//        val adapter = SliderAdapter(this,)
+        val adapter = SliderAdapter(this,)
+*/
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = binding.viewPager
